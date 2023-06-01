@@ -3,15 +3,12 @@ import { useState } from "react";
 import styles from "./ContactEditor.module.css";
 import Button from "../Button/Button";
 
-function ContactEditor({ onAddContact, value }) {
+function ContactEditor() {
   const [name, setName] = useState("");
   const [number, setNumber] = useState("");
 
   function handleSubmit(e) {
     e.preventDefault();
-    onAddContact(name, number);
-    setName("");
-    setNumber("");
   }
 
   return (

@@ -7,7 +7,7 @@ function Filter({ onFilterChange, filterVal }) {
     <input
       type="text"
       onInput={handleFilterChange}
-      placeholder="Search"
+      placeholder="Search contact name"
       value={filterVal}
     />
   );

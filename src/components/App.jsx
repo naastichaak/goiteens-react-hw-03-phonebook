@@ -4,6 +4,7 @@ import { nanoid } from "nanoid";
 
 import ContactList from "./ContactList/ContactList";
 import ContactEditor from "./ContactEditor/ContactEditor";
+import Filter from "./Filter/Filter";
 
 function App() {
   const [contacts, setContacts] = useState([
@@ -15,10 +16,16 @@ function App() {
   const [filter, setFilter] = useState("");
 
   function addContact(name, number) {
+    const existingContact = contacts.find((contact) => contact.name === name);
+    if (existingContact) {
+      alert("Contact already exist");
+      return;
+    }
+
     const newContact = {
       id: nanoid(),
-      name: name,
-      number: +number,
+      name,
+      number,
     };
     console.log(newContact);
 
@@ -29,6 +36,8 @@ function App() {
     setContacts((prevContact) =>
       prevContact.filter((contact) => contact.id !== id)
     );
+
+    console.log("yes");
   }
 
   const filteredContact = contacts.filter((contact) => {
@@ -47,6 +56,7 @@ function App() {
 
       <h1>Contacts</h1>
 
+      <Filter onFilterChange={setFilter} filterValue={filter} />
       {filteredContact.length !== 0 && (
         <ContactList contacts={filteredContact} onDelete={removeContact} />
       )}

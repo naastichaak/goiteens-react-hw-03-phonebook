@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import { nanoid } from "nanoid";
 import ContactList from "./ContactList/ContactList";
 import ContactEditor from "./ContactEditor/ContactEditor";
 import Filter from "./Filter/Filter";

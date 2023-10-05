@@ -22,7 +22,7 @@ function ContactList({ contacts, onDelete }) {
               translateX: "100%",
             }}
             transition={{
-              duration: 3,
+              duration: 1,
             }}
             className={styles.item}
             key={contact.id}

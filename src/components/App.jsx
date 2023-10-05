@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
-
 import { nanoid } from "nanoid";
-
 import ContactList from "./ContactList/ContactList";
 import ContactEditor from "./ContactEditor/ContactEditor";
 import Filter from "./Filter/Filter";
+import {
+  addContactsService,
+  getContactsService,
+  removeContactsService,
+} from "../servises/contactsService";
+// import axios from "axios";
 
 function initContacts() {
   const contacts = localStorage.getItem("contacts");
@@ -19,33 +23,32 @@ function App() {
   const [contacts, setContacts] = useState(initContacts);
   const [filter, setFilter] = useState("");
 
+  function addContact(name, number) {
+    const existingContact = contacts.find((contact) => contact.name === name);
+    if (existingContact) {
+      alert(existingContact.name + " already exists");
+      return;
+    }
+
+    addContactsService(name, number).then((newContact) => {
+      setContacts((prevContact) => [newContact, ...prevContact]);
+    });
+  }
+
+  useEffect(() => {
+    getContactsService().then((data) => setContacts(data));
+  }, []);
+
   useEffect(() => {
     localStorage.setItem("contacts", JSON.stringify(contacts));
   }, [contacts]);
 
-  function addContact(name, number) {
-    const existingContact = contacts.find((contact) => contact.name === name);
-    if (existingContact) {
-      alert("Contact " + name + " is already exist");
-      return;
-    }
-
-    const newContact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-    console.log(newContact);
-
-    setContacts((prevContact) => [newContact, ...prevContact]);
-  }
-
   function removeContact(id) {
-    setContacts((prevContact) =>
-      prevContact.filter((contact) => contact.id !== id)
-    );
-
-    console.log("yes");
+    removeContactsService(id).then(() => {
+      setContacts((prevContact) =>
+        prevContact.filter((contact) => contact.id !== id)
+      );
+    });
   }
 
   const filteredContact = contacts.filter((contact) => {
@@ -71,4 +74,5 @@ function App() {
     </div>
   );
 }
+
 export default App;

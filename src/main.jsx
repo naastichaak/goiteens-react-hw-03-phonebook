@@ -1,8 +1,25 @@
-import { createRoot } from "react-dom/client";
+// import { createRoot } from "react-dom/client";
 
+// import "./index.css";
+// import App from "./components/App";
+
+// const root = document.querySelector("#root");
+
+// createRoot(root).render(<App />);
+
+import React from "react";
+import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./components/App";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
-const root = document.querySelector("#root");
+const rootElem = document.querySelector("#root");
 
-createRoot(root).render(<App />);
+createRoot(rootElem).render(
+  <React.StrictMode>
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </React.StrictMode>
+);

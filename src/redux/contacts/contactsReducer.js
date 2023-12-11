@@ -1,9 +1,13 @@
-import { createReducer } from "@reduxjs/toolkit";
-import { addContactAction, removeContactAction } from "./contactsActions";
+import { combineReducers, createReducer } from "@reduxjs/toolkit";
+import {
+  addContactAction,
+  removeContactAction,
+  setQueryAction,
+} from "./contactsActions";
 
 // export const tasksReducer = createReducer([], () => {});
 
-export const tasksReducer = createReducer([], (builder) => {
+const tasksReducer = createReducer([], (builder) => {
   builder
     .addCase(addContactAction, (state, action) => {
       state.unshift(action.payload);
@@ -11,4 +15,13 @@ export const tasksReducer = createReducer([], (builder) => {
     .addCase(removeContactAction, (state, action) => {
       return state.filter((contact) => contact.id !== action.payload);
     });
+});
+
+const queryReduser = createReducer("", (builder) => {
+  builder.addCase(setQueryAction, (_, action) => action.payload);
+});
+
+export default combineReducers({
+  items: tasksReducer,
+  query: queryReduser,
 });
